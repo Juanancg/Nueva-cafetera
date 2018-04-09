@@ -22,7 +22,7 @@ architecture bench of tb_elegir_azucar is
   		P_Azucar: in std_logic;
   		M_Azucar: in std_logic;
   		Azucar_Ok: out std_logic;
-  		Azucar_Code: out std_logic_vector(width -1 downto 0)
+  		Azucar_Code: out std_logic_vector(width downto 0)
   		);
   end component;
   
@@ -33,7 +33,7 @@ architecture bench of tb_elegir_azucar is
   signal P_Azucar: std_logic;
   signal M_Azucar: std_logic;
   signal Azucar_Ok: std_logic;
-  signal Azucar_Code: std_logic_vector(width-1 downto 0) ;
+  signal Azucar_Code: std_logic_vector(width downto 0) ;
 
   constant clock_period: time := 5 ns;
   signal stop_the_clock: boolean;
