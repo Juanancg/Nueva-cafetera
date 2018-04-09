@@ -167,6 +167,7 @@ architecture Behavioral of maquina_estados is
 	     cafe_terminado <= '0';
 	       
 	   when SIRVIENDO_LECHE =>
+	       
 	       led_on <= '1';
 	       cafe_terminado <= '0';
 	       bomba_cafe <='0';
