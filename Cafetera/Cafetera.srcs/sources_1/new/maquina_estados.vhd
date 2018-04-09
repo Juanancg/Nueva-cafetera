@@ -26,7 +26,7 @@ use IEEE.NUMERIC_STD.ALL;
 entity maquina_estados is
     Port ( OnOff : in STD_LOGIC;
            clk : in STD_LOGIC;
-           clk_out: in STD_LOGIC;
+           
            reset : in STD_LOGIC;
            cafe_ok : in STD_LOGIC;
            azucar_ok : in STD_LOGIC;
@@ -44,8 +44,8 @@ architecture Behavioral of maquina_estados is
  signal estado_actual: ESTADOS;
  signal estado_siguiente: ESTADOS;
 
- signal carga: integer range 0 to 15;
- signal cuenta: integer range 0 to 15;
+ signal carga: integer range 0 to 1000000000;
+ signal cuenta: integer range 0 to 1000000000;
  signal enable: std_logic;
  signal salida:std_logic;
   
@@ -97,7 +97,7 @@ architecture Behavioral of maquina_estados is
           estado_siguiente <= MAQUINA_OFF;
        end if;      
                
-	when CANTIDAD_AZUCAR =>
+	when CANTIDAD_AZUCAR => --Si metemos un azucar code, que no esta contemplado, no enciende el cafe terminado
 	   if(azucar_ok = '1' and azucar_code = "0000") then
 	       estado_siguiente <= ESPERA_NUEVOCAFE;
 	   elsif(azucar_ok = '1'and (azucar_code = "0001" or azucar_code = "0010")) then
@@ -157,7 +157,7 @@ architecture Behavioral of maquina_estados is
 	       
        when SIRVIENDO_CAFE => 
          led_on <= '1';
-         carga <= 5;
+         carga <= 10000000;
          bomba_cafe <='1';
          enable <= '1';
          if(salida ='1') then
@@ -170,7 +170,7 @@ architecture Behavioral of maquina_estados is
 	       led_on <= '1';
 	       cafe_terminado <= '0';
 	       bomba_cafe <='0';
-           carga <= 3;
+           carga <= 3000000;
            bomba_leche <='1';
            enable <= '1';
            if(salida ='1') then
@@ -184,7 +184,7 @@ architecture Behavioral of maquina_estados is
             bomba_leche <= '0';
             cafe_terminado <= '0'; 
             if (azucar_code = "0001") then
-                carga <= 2;
+                carga <= 2000000;
                 bomba_azucar <='1';
                 enable <= '1';
                 if(salida ='1') then
@@ -192,7 +192,7 @@ architecture Behavioral of maquina_estados is
                     enable <= '0';
                 end if;    
             elsif (azucar_code = "0010") then
-                carga <= 4;
+                carga <= 4000000;
                 bomba_azucar <='1';
                 enable <= '1';
                 if(salida ='1') then
@@ -216,12 +216,12 @@ architecture Behavioral of maquina_estados is
        end case;
    end process;
    
-   Contador: process(clk_out,reset,enable)
+   Contador: process(clk,reset,enable)
    begin
 	  if (reset='1') then
          cuenta<=0;
          salida<='0';
-      elsif clk_out'event and clk_out='1' then
+      elsif clk'event and clk='1' then
          if enable ='1' then
            if cuenta<carga then
                  cuenta<=cuenta+1;

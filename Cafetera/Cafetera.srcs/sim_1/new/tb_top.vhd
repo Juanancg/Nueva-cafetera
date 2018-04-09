@@ -67,7 +67,9 @@ begin
                       end process;
   stimulus: process
   begin
-  
+    
+    reset<='1';
+    wait for 10 ns;
     -- Put initialisation code here
     OnOff<='0';
     reset<='0';
