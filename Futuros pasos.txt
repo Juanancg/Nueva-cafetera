@@ -1,0 +1,5 @@
+Fecha 09-ABRIL-2018
+
+1)Probar si todo funciona bien con la maquina de estados sin clk_out (En rama Maquina-alternativa).
+2)Pasar a modificar el constraint.
+3)Probar en placa.
