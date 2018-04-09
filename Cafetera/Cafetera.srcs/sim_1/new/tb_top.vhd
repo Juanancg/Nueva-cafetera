@@ -68,6 +68,8 @@ begin
   stimulus: process
   begin
   
+    reset <= '1';
+    wait for 10 ns;
     -- Put initialisation code here
     OnOff<='0';
     reset<='0';
@@ -82,7 +84,6 @@ begin
     OnOff<='1';
     wait for 350 ns;
     solo <='1';
-    wait for 100ns;
     m_azucar <='1';
     wait for 200 ns;
     wait;

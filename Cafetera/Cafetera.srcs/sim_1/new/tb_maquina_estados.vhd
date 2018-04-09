@@ -36,7 +36,7 @@ architecture bench of tb_maquina_estados is
              cafe_ok : in STD_LOGIC;
              azucar_ok : in STD_LOGIC;
              cafe_code : in STD_LOGIC_VECTOR (1 downto 0);
-             Azucar_Code: in STD_LOGIC_VECTOR(2 downto 0);
+             Azucar_Code: in STD_LOGIC_VECTOR(3 downto 0);
              led_on : out STD_LOGIC;
              bomba_cafe : out STD_LOGIC;
              bomba_azucar : out STD_LOGIC;
@@ -51,7 +51,7 @@ architecture bench of tb_maquina_estados is
   signal cafe_ok: STD_LOGIC;
   signal azucar_ok: STD_LOGIC;
   signal cafe_code: STD_LOGIC_VECTOR (1 downto 0);
-  signal Azucar_Code: STD_LOGIC_VECTOR(2 downto 0);
+  signal Azucar_Code: STD_LOGIC_VECTOR(3 downto 0);
   signal led_on: STD_LOGIC;
   signal bomba_cafe: STD_LOGIC;
   signal bomba_azucar: STD_LOGIC;
@@ -86,7 +86,7 @@ begin
     cafe_ok <= '0';
     azucar_ok <= '0';
     cafe_code <= "00";
-    Azucar_Code <= "000";
+    Azucar_Code <= "0000";
     
 
 
@@ -102,20 +102,20 @@ begin
     wait for 20 ns;
     cafe_code <= "11";
     cafe_ok <= '1';
-    Azucar_Code <= "100";
+    Azucar_Code <= "0010";
     azucar_ok <= '1';
     wait for 160 ns;
-    reset<='1';
-    cafe_ok <= '0';
-    azucar_ok <= '0';
+    --reset<='1';
+--    cafe_ok <= '0';
+--    azucar_ok <= '0';
     wait for 80 ns;
     reset <= '0';
     wait for 40 ns;
-        cafe_code <= "10";
-cafe_ok <= '1';
-Azucar_Code <= "001";
-azucar_ok <= '1';
-wait for 70 ns;
+--        cafe_code <= "10";
+--cafe_ok <= '1';
+--Azucar_Code <= "0001";
+--azucar_ok <= '1';
+--wait for 70 ns;
 
 
     -- Put test bench stimulus code here
@@ -123,14 +123,31 @@ wait for 70 ns;
     wait;
   end process;
 
-  clocking: process
-  begin
-    while not stop_the_clock loop
-      clk <= '0', '1' after clock_period / 2;
-      clk_out <= '0', '1' after clock_period / 2;
-      wait for clock_period;
-    end loop;
-    wait;
-  end process;
+--  clocking: process
+--  begin
+--    while not stop_the_clock loop
+--      clk <= '0', '1' after clock_period/2;
+--      clk_out <= '0', '1' after clock_period/5;
+--      wait for clock_period;
+--    end loop;
+--    wait;
+--  end process;
+  -- definición del proceso de reloj
+      clk_process: process
+      begin
+          wait for 0.5 * CLocK_PERIOD;
+          CLK <= '0';
+          wait for 0.5 * CLocK_PERIOD;
+          CLK <= '1';
+
+      end process;
+      clkout_process: process
+      begin
+
+          wait for 5*CLocK_PERIOD;
+          CLK_out <= '0';
+          wait for CLocK_PERIOD;
+          CLK_out <= '1';
+      end process;
 
 end;
