@@ -44,7 +44,7 @@ end TOP;
 architecture Behavioral of TOP is
 
 	COMPONENT clk_divider
-    GENERIC (frec: integer:=50000000);
+    GENERIC (frec: integer:=5); --50000000
     PORT(
          clk : IN std_logic;
          reset : IN std_logic;          
@@ -144,7 +144,7 @@ begin
     
     clkdivider: clk_divider
         generic map(
-            frec => 10000)--50000000
+            frec => 5)--50000000
         port map(
             clk => clk,
             reset => reset,
@@ -152,7 +152,7 @@ begin
             
     clkdivider_display: clk_divider
         generic map(
-            frec => 10000)--100000
+            frec => 5)--100000
         port map(
             clk => clk,
             reset => reset,
@@ -231,7 +231,7 @@ begin
         port map(
             OnOff => OnOff,
             clk => clk,
-            clk_out => clk_out,
+            clk_out => clk_out, --Aqui clk_out
             reset => reset,
             cafe_ok => cafe_ok,
             azucar_ok => azucar_ok,
