@@ -83,7 +83,9 @@ begin
    -- reset <='0';
     OnOff<='1';
     wait for 350 ns;
-    solo <='1';
+    --Cambia aqui tu tipo de café
+    solo <='0';
+    con_leche <='1';
     wait for 100ns;
     m_azucar <='1';
     wait for 200 ns;
