@@ -31,7 +31,7 @@ entity maquina_estados is
            cafe_ok : in STD_LOGIC;
            azucar_ok : in STD_LOGIC;
            cafe_code : in STD_LOGIC_VECTOR (1 downto 0);
-           Azucar_Code: in STD_LOGIC_VECTOR(3 downto 0);
+           Azucar_Code: in STD_LOGIC_VECTOR(2 downto 0);
            led_on : out STD_LOGIC;
            bomba_cafe : out STD_LOGIC;
            bomba_azucar : out STD_LOGIC;

@@ -1,0 +1,14 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../Cafetera.srcs/sources_1/new/TOP.vhd" \
+"../../../../Cafetera.srcs/sources_1/new/clk_divider.vhd" \
+"../../../../Cafetera.srcs/sources_1/new/codigo_ascii.vhd" \
+"../../../../Cafetera.srcs/sources_1/new/decoder.vhd" \
+"../../../../Cafetera.srcs/sources_1/new/display_refresh.vhd" \
+"../../../../Cafetera.srcs/sources_1/new/elegir_azucar.vhd" \
+"../../../../Cafetera.srcs/sources_1/new/elegir_cafe.vhd" \
+"../../../../Cafetera.srcs/sources_1/new/maquina_estados.vhd" \
+"../../../../Cafetera.srcs/sim_1/new/tb_top.vhd" \
+
+# Do not sort compile order
+nosort

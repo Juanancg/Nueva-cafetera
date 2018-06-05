@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../Cafetera.srcs/sources_1/new/maquina_estados.vhd" \
+"../../../../Cafetera.srcs/sim_1/new/tb_maquina_estados.vhd" \
+
+# Do not sort compile order
+nosort

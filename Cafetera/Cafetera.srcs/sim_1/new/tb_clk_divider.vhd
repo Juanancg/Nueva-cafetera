@@ -8,7 +8,7 @@ end;
 architecture bench of tb_clk_divider is
 
   component clk_divider
-      Generic (frec: integer:=10000000);
+      Generic (frec: integer:=5);
       Port ( clk : in  STD_LOGIC;
              reset : in  STD_LOGIC;
              clk_out : out  STD_LOGIC);
@@ -24,7 +24,7 @@ architecture bench of tb_clk_divider is
 begin
 
   -- Insert values for generic parameters !!
-  uut: clk_divider generic map ( frec    => 10000000 )
+  uut: clk_divider generic map ( frec    => 5 )
                       port map ( clk     => clk,
                                  reset   => reset,
                                  clk_out => clk_out );
@@ -34,10 +34,10 @@ begin
   
     -- Put initialisation code here
 
-    reset <= '1';
-    wait for 5 ns;
+--    reset <= '1';
+--   wait for 5 ns;
     reset <= '0';
-    wait for 5 ns;
+--    wait for 5 ns;
 
     -- Put test bench stimulus code here
 

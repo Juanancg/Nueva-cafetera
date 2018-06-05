@@ -78,7 +78,9 @@ begin
     m_azucar<='0';
     -- Put test bench stimulus code here
     wait for 100 ns;
-   -- reset <='0';
+    reset <='1';
+    wait for 5 ns;
+    reset <= '0';
     OnOff<='1';
     wait for 350 ns;
     solo <='1';

@@ -1,0 +1,30 @@
+#-----------------------------------------------------------
+# Vivado v2017.3.1 (64-bit)
+# SW Build 2035080 on Fri Oct 20 14:20:01 MDT 2017
+# IP Build 2034413 on Fri Oct 20 15:56:25 MDT 2017
+# Start of session at: Sat Mar 31 10:21:44 2018
+# Process ID: 3792
+# Current directory: C:/Users/Yo Yo/Desktop/Nueva-cafetera/Cafetera
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent6024 C:\Users\Yo Yo\Desktop\Nueva-cafetera\Cafetera\Cafetera.xpr
+# Log file: C:/Users/Yo Yo/Desktop/Nueva-cafetera/Cafetera/vivado.log
+# Journal file: C:/Users/Yo Yo/Desktop/Nueva-cafetera/Cafetera\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project {C:/Users/Yo Yo/Desktop/Nueva-cafetera/Cafetera/Cafetera.xpr}
+update_compile_order -fileset sources_1
+launch_simulation
+source tb_TOP.tcl
+run all
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top tb_maquina_estados [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1
+launch_simulation
+launch_simulation
+launch_simulation
+source tb_maquina_estados.tcl
+close_sim
+close_sim

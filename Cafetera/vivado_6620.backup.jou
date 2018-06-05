@@ -1,0 +1,62 @@
+#-----------------------------------------------------------
+# Vivado v2017.3.1 (64-bit)
+# SW Build 2035080 on Fri Oct 20 14:20:01 MDT 2017
+# IP Build 2034413 on Fri Oct 20 15:56:25 MDT 2017
+# Start of session at: Sun Mar 18 23:25:31 2018
+# Process ID: 6620
+# Current directory: C:/Users/Yo Yo/Desktop/Nueva-cafetera/Cafetera
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent11448 C:\Users\Yo Yo\Desktop\Nueva-cafetera\Cafetera\Cafetera.xpr
+# Log file: C:/Users/Yo Yo/Desktop/Nueva-cafetera/Cafetera/vivado.log
+# Journal file: C:/Users/Yo Yo/Desktop/Nueva-cafetera/Cafetera\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project {C:/Users/Yo Yo/Desktop/Nueva-cafetera/Cafetera/Cafetera.xpr}
+update_compile_order -fileset sources_1
+launch_simulation
+source tb_clk_divider.tcl
+close_sim
+launch_simulation
+source tb_clk_divider.tcl
+run all
+close_sim
+launch_simulation
+source tb_clk_divider.tcl
+close_sim
+launch_simulation
+source tb_clk_divider.tcl
+run all
+close_sim
+launch_simulation
+source tb_clk_divider.tcl
+close_sim
+launch_simulation
+source tb_clk_divider.tcl
+close_sim
+launch_simulation
+source tb_clk_divider.tcl
+update_compile_order -fileset sources_1
+close_sim
+launch_simulation
+source tb_clk_divider.tcl
+update_compile_order -fileset sources_1
+close_sim
+launch_simulation
+update_compile_order -fileset sources_1
+launch_simulation
+source tb_clk_divider.tcl
+close_sim
+update_compile_order -fileset sources_1
+launch_simulation
+source tb_clk_divider.tcl
+close_sim
+update_compile_order -fileset sources_1
+launch_simulation
+source tb_clk_divider.tcl
+close_sim
+launch_simulation
+source tb_clk_divider.tcl
+update_compile_order -fileset sources_1
+close_sim
+launch_simulation
+source tb_clk_divider.tcl
+close_sim
