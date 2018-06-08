@@ -15,20 +15,24 @@ end codigo_ascii;
 architecture behavioral of codigo_ascii is
     begin
         WITH Cafe_Code SELECT
-                ascii_0 <= "0111" WHEN "10",--CODIGO DE S
-                           "0101" WHEN "11",--CODIGO DE L
+                ascii_0 <= "0111" WHEN "10", --CODIGO DE S
+                           "0101" WHEN "11", --CODIGO DE L
+                           "1001" WHEN "01", --CODIGO DE F
                            "1111" WHEN OTHERS;
         WITH Cafe_Code SELECT
                 ascii_1 <= "0110" WHEN "10", --CODIGO DE O
                            "0011" WHEN "11", --CODIGO DE A
+                           "0011" WHEN "01", --CODIGO DE A
                            "1111" WHEN OTHERS; 
         WITH Cafe_Code SELECT
-                ascii_2 <= "0101" WHEN "10",--CODIGO DE L
-                           "0100" WHEN "11",--CODIGO DE I
+                ascii_2 <= "0101" WHEN "10", --CODIGO DE L
+                           "0100" WHEN "11", --CODIGO DE I
+                           "0100" WHEN "01", --CODIGO DE I
                            "1111" WHEN OTHERS; 
         WITH Cafe_Code SELECT
                 ascii_3 <= "0110" WHEN "10", --CODIGO DE O
                            "1000" WHEN "11", --CODIGO DE T
+                           "0101" WHEN "01", --CODIGO DE L
                            "1111" WHEN OTHERS;                          
            
     

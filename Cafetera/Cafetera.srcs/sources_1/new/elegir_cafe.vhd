@@ -61,6 +61,8 @@ begin
 				elsif con_Leche = '1' and solo = '0' then --Aquí he modificado J
 					codigo := "11";
 					cafe_ok <='1';	
+				elsif con_Leche = '1' and solo = '1' then
+				    codigo:="01";	
 				end if;
 			end if;
 		else 

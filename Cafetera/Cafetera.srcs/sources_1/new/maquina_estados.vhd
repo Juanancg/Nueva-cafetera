@@ -82,7 +82,7 @@ architecture Behavioral of maquina_estados is
       if salida = '1' and cafe_code = "11" then       
         estado_siguiente <= SIRVIENDO_LECHE;
       end if;
-      if salida = '1' and cafe_code = "10" then
+      if salida = '1' and cafe_code = "10"  then
         estado_siguiente <= CANTIDAD_AZUCAR;
       end if;        
       if OnOff = '0' then 
