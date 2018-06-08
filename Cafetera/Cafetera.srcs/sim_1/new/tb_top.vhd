@@ -84,7 +84,7 @@ begin
     OnOff<='1';
     wait for 350 ns;
     --Cambia aqui tu tipo de café
-    solo <='0';
+    solo <='1';
     con_leche <='1';
     wait for 100ns;
     m_azucar <='1';

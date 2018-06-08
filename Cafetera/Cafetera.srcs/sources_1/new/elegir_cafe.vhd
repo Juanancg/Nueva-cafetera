@@ -55,12 +55,12 @@ begin
 				codigo := "00";
 				cafe_ok <= '0';
 			elsif rising_edge(clk) then
-				if solo='1' then
+				if solo = '1' and con_Leche = '0' then --Aquí he modificado J
 				    codigo := "10";
 				    cafe_ok <='1';
-				elsif con_Leche = '1' then 
+				elsif con_Leche = '1' and solo = '0' then --Aquí he modificado J
 					codigo := "11";
-					cafe_ok <='1';
+					cafe_ok <='1';	
 				end if;
 			end if;
 		else 
