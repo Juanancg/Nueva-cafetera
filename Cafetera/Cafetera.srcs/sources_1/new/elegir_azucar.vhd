@@ -32,18 +32,19 @@ begin
 				bit_ok<='0';
 				
 			elsif rising_edge(clk) then
-				if S_Azucar = '1' then
+				if S_Azucar = '1' and P_Azucar = '0' and M_Azucar = '0' then
 					codigo<= "0000";
 					bit_ok<='1';
 										
-				elsif P_Azucar = '1' then
+				elsif P_Azucar = '1' and S_Azucar = '0' and M_Azucar = '0' then
 					codigo<= "0001";
 					bit_ok<='1';
 										
-				elsif M_Azucar = '1' then
+				elsif M_Azucar = '1' and P_Azucar = '0' and S_Azucar = '0' then
 					codigo<= "0010";
 					bit_ok<='1';
-										
+				else --Añadido 10/06/2018: la idea es que salga una F si pulsa más de un botón 
+				    codigo<= "1001";					
 				end if;
 			end if;
 			

@@ -84,10 +84,13 @@ begin
     OnOff<='1';
     wait for 350 ns;
     --Cambia aqui tu tipo de café
-    solo <='1';
+    solo <='0';
     con_leche <='1';
     wait for 100ns;
+    --Cambia aquí la cantidad de azúcar
     m_azucar <='1';
+    p_azucar <='1';
+    s_azucar <='1';
     wait for 200 ns;
     wait;
   end process;
