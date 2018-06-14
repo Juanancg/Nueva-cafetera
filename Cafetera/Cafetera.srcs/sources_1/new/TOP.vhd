@@ -1,24 +1,3 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 22.01.2018 19:19:08
--- Design Name: 
--- Module Name: TOP - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -35,6 +14,7 @@ entity TOP is
             display_number : out  STD_LOGIC_VECTOR (6 downto 0);
             display_selection : out  STD_LOGIC_VECTOR (4 downto 0);            
             led_on: out std_logic;
+            led_reset: out std_logic;
             bomba_cafe: out std_logic;
             bomba_leche: out std_logic;
             bomba_azucar: out std_logic;
@@ -44,7 +24,7 @@ end TOP;
 architecture Behavioral of TOP is
 
 	COMPONENT clk_divider
-    GENERIC (frec: integer:=5); --50000000
+    GENERIC (frec: integer:=50000000); --50000000
     PORT(
          clk : IN std_logic;
          reset : IN std_logic;          
@@ -70,7 +50,7 @@ architecture Behavioral of TOP is
     
     COMPONENT elegir_cafe       
     generic(width: positive:=2);
-    PORT ( 
+    PORT (  
        solo : in STD_LOGIC;
        con_leche : in STD_LOGIC;
        reset : in STD_LOGIC;
@@ -82,6 +62,7 @@ architecture Behavioral of TOP is
     
     COMPONENT codigo_ascii
     PORT(
+       OnOff: in std_logic;
        Cafe_Code: in std_logic_vector(1 downto 0);       
        ascii_0: out std_logic_vector(3 downto 0);
        ascii_1: out std_logic_vector(3 downto 0);
@@ -112,7 +93,6 @@ architecture Behavioral of TOP is
     COMPONENT maquina_estados
     PORT ( OnOff : in STD_LOGIC;
            clk : in STD_LOGIC;
-           --clk_out: in STD_LOGIC;
            reset : in STD_LOGIC;
            cafe_ok : in STD_LOGIC;
            azucar_ok : in STD_LOGIC;
@@ -141,14 +121,6 @@ architecture Behavioral of TOP is
     signal segment_3_letra :  std_logic_vector(6 downto 0);   
     signal segment_4_letra :  std_logic_vector(6 downto 0);
 begin
-    
-    clkdivider: clk_divider
-        generic map(
-            frec => 5)--50000000
-        port map(
-            clk => clk,
-            reset => reset,
-            clk_out => clk_out);
             
     clkdivider_display: clk_divider
         generic map(
@@ -173,7 +145,7 @@ begin
             
     elegircafe: elegir_cafe
         generic map(
-            width => 2)   
+            width => 3)   
         port map(
             reset => reset,    
             clk  => clk,        -- Clock in
@@ -185,6 +157,7 @@ begin
 
     codascii: codigo_ascii
         port map(
+           OnOff => OnOff,
            Cafe_Code => cafe_code,       
            ascii_0 => ascii_0,
            ascii_1 => ascii_1,

@@ -37,7 +37,7 @@ end;
 architecture bench of tb_elegir_cafe is
 
   component elegir_cafe
-      generic(width: positive:=2);
+      generic(width: positive:=3);
       Port ( 
              solo : in STD_LOGIC;
              con_leche : in STD_LOGIC;
@@ -45,7 +45,7 @@ architecture bench of tb_elegir_cafe is
              clk : in STD_LOGIC;
              OnOff : in STD_LOGIC;
              cafe_ok : out STD_LOGIC;
-             cafe_code : out STD_LOGIC_VECTOR (1 downto 0));
+             cafe_code : out STD_LOGIC_VECTOR (2 downto 0));
   end component;
 
   signal solo: STD_LOGIC;
@@ -54,7 +54,7 @@ architecture bench of tb_elegir_cafe is
   signal clk: STD_LOGIC;
   signal OnOff: STD_LOGIC;
   signal cafe_ok: STD_LOGIC;
-  signal cafe_code: STD_LOGIC_VECTOR (1 downto 0);
+  signal cafe_code: STD_LOGIC_VECTOR (2 downto 0);
 
   constant clock_period: time := 5 ns;
   signal stop_the_clock: boolean;
@@ -74,7 +74,7 @@ architecture bench of tb_elegir_cafe is
 begin
 
   -- Insert values for generic parameters !!
-  uut: elegir_cafe generic map ( width     =>  2)
+  uut: elegir_cafe generic map ( width     =>  3)
                       port map ( solo      => solo,
                                  con_leche => con_leche,
                                  reset     => reset,

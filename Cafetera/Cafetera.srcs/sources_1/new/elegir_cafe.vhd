@@ -1,39 +1,10 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 18.01.2018 20:51:44
--- Design Name: 
--- Module Name: elegir_cafe - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
 
 entity elegir_cafe is
    
-    generic(width: positive:=2);
+    generic(width: positive:=3);
 
     Port ( 
            solo : in STD_LOGIC;
@@ -46,29 +17,33 @@ entity elegir_cafe is
 end elegir_cafe;
 
 architecture Behavioral of elegir_cafe is
+signal codigo	: std_logic_vector(1 downto 0);
+signal bit_ok : std_logic;
 begin
+    
 	process (clk, reset, OnOff)
-	   variable codigo	: std_logic_vector(width - 1 downto 0);
 	begin
-		if OnOff='1' then
+		if OnOff='0' then
 			if reset = '1' then
-				codigo := "00";
-				cafe_ok <= '0';
+				codigo<= "00";
+				bit_ok <= '0';
 			elsif rising_edge(clk) then
-				if solo = '1' and con_Leche = '0' then --Aquí he modificado J
-				    codigo := "10";
-				    cafe_ok <='1';
-				elsif con_Leche = '1' and solo = '0' then --Aquí he modificado J
-					codigo := "11";
-					cafe_ok <='1';	
-				elsif con_Leche = '1' and solo = '1' then
-				    codigo:="01";	
+				if solo = '1' and con_Leche = '0' then 
+				    codigo <= "10";
+				    bit_ok <='1';
+				elsif con_Leche = '1' and solo = '0' then 
+					codigo <= "11";
+					bit_ok <='1';	
+				elsif con_Leche = '1' and solo = '1' then --Mensaje de ERROR
+				    codigo<="01";
+				    bit_ok<='0';	
 				end if;
 			end if;
-		else 
-		  cafe_ok <= '0';
-		  codigo := "00";
+		elsif OnOff = '1' then --Aqui poner un 0 para que no funcione
+	      codigo <= "00";
+		  bit_ok <= '0';
 		end if;
-		cafe_code <= codigo;
 	end process;
+	cafe_code <= codigo;
+	cafe_ok <= bit_ok;
 end Behavioral;

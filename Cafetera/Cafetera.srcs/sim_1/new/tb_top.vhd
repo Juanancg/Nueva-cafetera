@@ -79,19 +79,34 @@ begin
     p_azucar<='0';
     m_azucar<='0';
     -- Put test bench stimulus code here
-    wait for 100 ns;
-   -- reset <='0';
+    wait for 200 ns;
     OnOff<='1';
-    wait for 350 ns;
+    wait for 200 ns;
     --Cambia aqui tu tipo de café
     solo <='0';
     con_leche <='1';
-    wait for 100ns;
+    wait for 300ns;
     --Cambia aquí la cantidad de azúcar
-    m_azucar <='1';
+    m_azucar <='0';
     p_azucar <='1';
-    s_azucar <='1';
-    wait for 200 ns;
+    s_azucar <='0';
+    wait for 300 ns;
+    reset<='1';
+    wait for 100ns;
+    reset<='0';
+    wait for 300ns;
+    solo<='0';
+    con_leche<='0';
+    s_azucar<='0';
+    p_azucar<='0';
+    m_azucar<='0';
+    OnOff<='1';
+    wait for 350 ns;
+    solo <= '1';
+    s_azucar<='1';
+    
+    
+    
     wait;
   end process;
 

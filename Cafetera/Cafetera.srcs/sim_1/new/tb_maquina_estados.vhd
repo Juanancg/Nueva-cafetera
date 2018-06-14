@@ -50,7 +50,7 @@ architecture bench of tb_maquina_estados is
   signal reset: STD_LOGIC;
   signal cafe_ok: STD_LOGIC;
   signal azucar_ok: STD_LOGIC;
-  signal cafe_code: STD_LOGIC_VECTOR (1 downto 0);
+  signal cafe_code: STD_LOGIC_VECTOR (2 downto 0);
   signal Azucar_Code: STD_LOGIC_VECTOR(3 downto 0);
   signal led_on: STD_LOGIC;
   signal bomba_cafe: STD_LOGIC;
@@ -85,7 +85,7 @@ begin
     reset <= '0';
     cafe_ok <= '0';
     azucar_ok <= '0';
-    cafe_code <= "00";
+    cafe_code <= "000";
     Azucar_Code <= "0000";
     
 
@@ -100,7 +100,7 @@ begin
     wait for 40 ns;
 
     wait for 20 ns;
-    cafe_code <= "11";
+    cafe_code <= "011";
     cafe_ok <= '1';
     Azucar_Code <= "1000";
     azucar_ok <= '1';
@@ -111,7 +111,7 @@ begin
     wait for 80 ns;
     reset <= '0';
     wait for 40 ns;
-        cafe_code <= "10";
+        cafe_code <= "010";
 cafe_ok <= '1';
 Azucar_Code <= "0001";
 azucar_ok <= '1';

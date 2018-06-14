@@ -10,7 +10,7 @@ architecture bench of tb_codigo_ascii is
   component codigo_ascii
  
   	port(
-  		Cafe_Code: in std_logic_vector(1 downto 0);
+  		Cafe_Code: in std_logic_vector(2 downto 0);
   		ascii_0: out std_logic_vector(3 downto 0);
   		ascii_1: out std_logic_vector(3 downto 0);
   		ascii_2: out std_logic_vector(3 downto 0);
@@ -18,7 +18,7 @@ architecture bench of tb_codigo_ascii is
   		);
   end component;
 
-  signal Cafe_Code: std_logic_vector(1 downto 0);
+  signal Cafe_Code: std_logic_vector(2 downto 0);
   signal ascii_0: std_logic_vector(3 downto 0);
   signal ascii_1: std_logic_vector(3 downto 0);
   signal ascii_2: std_logic_vector(3 downto 0);
@@ -36,11 +36,11 @@ begin
   begin
   
     -- Put initialisation code here
-    cafe_code <= "10";
+    cafe_code <= "010";
     wait for 20 ns;
-    cafe_code <= "11";
+    cafe_code <= "011";
     wait for 20 ns;
-    cafe_code <="00";
+    cafe_code <="000";
     wait for 20 ns;
 
     -- Put test bench stimulus code here

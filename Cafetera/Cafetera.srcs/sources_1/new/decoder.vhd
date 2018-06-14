@@ -19,6 +19,7 @@ begin
 				"0010010" WHEN "0111", --S 
 				"0000111" WHEN "1000", --T 
 				"0001110" WHEN "1001", --F Añadido 08/06/2018
-				"1111110" WHEN others;
+				"1111111" WHEN "1010", --Máquina apagada
+				"0111111" WHEN others;
 
 end Behavioral;

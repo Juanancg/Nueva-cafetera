@@ -1,24 +1,3 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 19.01.2018 19:02:30
--- Design Name: 
--- Module Name: maquina_estados - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
@@ -40,203 +19,205 @@ entity maquina_estados is
 end maquina_estados;
 
 architecture Behavioral of maquina_estados is
- type ESTADOS is (MAQUINA_OFF, TIPO_CAFE, SIRVIENDO_CAFE, SIRVIENDO_LECHE, CANTIDAD_AZUCAR, SIRVIENDO_AZUCAR, ESPERA_NUEVOCAFE);
- signal estado_actual: ESTADOS;
- signal estado_siguiente: ESTADOS;
-
- signal carga: integer range 0 to 1000000000;
- signal cuenta: integer range 0 to 1000000000;
- signal enable: std_logic;
- signal salida:std_logic;
+    type ESTADOS is (MAQUINA_OFF, TIPO_CAFE, SIRVIENDO_CAFE, SIRVIENDO_LECHE, CANTIDAD_AZUCAR, SIRVIENDO_AZUCAR, ESPERA_NUEVOCAFE);
+    signal estado_actual: ESTADOS;
+    signal estado_siguiente: ESTADOS;
+ 
+    signal carga: integer range 0 to 1000000000;
+    signal cuenta: integer range 0 to 1000000000;
+    signal enable: std_logic;
+    signal salida:std_logic;
   
- begin
-   process(reset,clk) --Asignación de estados
-   begin 
-     if reset='1' then
-	   estado_actual <= TIPO_CAFE;  
-     elsif rising_edge(clk) then
-	   estado_actual <= estado_siguiente;
-     end if;
-   end process;
-
-   process(cafe_ok, azucar_ok, estado_actual, OnOff, salida)  --Evolución de los estados
-   begin 
-   
-     estado_siguiente <= estado_actual;
-     case estado_actual is
-
-	when MAQUINA_OFF =>
-	  if OnOff = '1' then
-	    estado_siguiente <= TIPO_CAFE;
-          end if;
-		
-	when TIPO_CAFE =>
-	  if cafe_ok = '1' then
-	    estado_siguiente <= SIRVIENDO_CAFE;
-      end if;
-      if OnOff = '0' then 
-        estado_siguiente <= MAQUINA_OFF;
-      end if;    
-      
-	when SIRVIENDO_CAFE =>
-      if salida = '1' and cafe_code = "11" then       
-        estado_siguiente <= SIRVIENDO_LECHE;
-      end if;
-      if salida = '1' and cafe_code = "10"  then
-        estado_siguiente <= CANTIDAD_AZUCAR;
-      end if;        
-      if OnOff = '0' then 
-        estado_siguiente <= MAQUINA_OFF;
-      end if;  
-    
-    when SIRVIENDO_LECHE =>
-        if salida = '1' then 
-            estado_siguiente <= CANTIDAD_AZUCAR;
-        end if;
-       if OnOff = '0' then 
-          estado_siguiente <= MAQUINA_OFF;
-       end if;      
-               
-	when CANTIDAD_AZUCAR => --Si metemos un azucar code, que no esta contemplado, no enciende el cafe terminado
-	   if(azucar_ok = '1' and azucar_code = "0000") then
-	       estado_siguiente <= ESPERA_NUEVOCAFE;
-	   elsif(azucar_ok = '1'and (azucar_code = "0001" or azucar_code = "0010")) then
-	    estado_siguiente <= SIRVIENDO_AZUCAR;
-      end if;
-      if OnOff = '0' then 
-        estado_siguiente <= MAQUINA_OFF;
-      end if;    
-      
-    when SIRVIENDO_AZUCAR =>
-        if(salida = '1') then
-            estado_siguiente <= ESPERA_NUEVOCAFE;
-        end if;
-        if OnOff = '0' then 
-            estado_siguiente <= MAQUINA_OFF;
-        end if;            
-         
-	when ESPERA_NUEVOCAFE =>
-	  if reset ='1' then
-	    estado_siguiente <= TIPO_CAFE;
-      end if;
-      if OnOff = '0' then 
-        estado_siguiente <= MAQUINA_OFF;
-      end if;  
-
-	when others =>
-	    estado_siguiente <= MAQUINA_OFF;
-
-    end case;
-   end process;
-
-
-   process(estado_actual)   --Asignación de las salidas
-   begin
-     case estado_actual is
-     
-	   when MAQUINA_OFF =>
-           led_on <= '0';
-	       bomba_cafe <= '0';
-	       bomba_leche <= '0';
-	       bomba_azucar <= '0';
-	       cafe_terminado <= '0';
-	       
-       when TIPO_CAFE =>
-           led_on <= '1';
-	       bomba_cafe <= '0';
-	       bomba_leche <= '0';
-	       bomba_azucar <= '0';
-	       cafe_terminado <= '0';
-	       
-       when CANTIDAD_AZUCAR => 
-           led_on <= '1';
-	       bomba_cafe <= '0';
-	       bomba_leche <= '0';
-	       bomba_azucar <= '0';
-	       cafe_terminado <= '0';
-	       
-       when SIRVIENDO_CAFE => 
-         led_on <= '1';
-         carga <= 10000000;
-         bomba_cafe <='1';
-         enable <= '1';
-         if(salida ='1') then
-            bomba_cafe <= '0';
-            enable <= '0';
-         end if;  
-	     cafe_terminado <= '0';
-	       
-	   when SIRVIENDO_LECHE =>
-	       led_on <= '1';
-	       cafe_terminado <= '0';
-	       bomba_cafe <='0';
-           carga <= 3000000;
-           bomba_leche <='1';
-           enable <= '1';
-           if(salida ='1') then
-               bomba_leche <= '0';
-               enable <= '0';
-           end if; 
-           
-       when SIRVIENDO_AZUCAR =>
-            led_on <= '1';
-            bomba_cafe <= '0';
-            bomba_leche <= '0';
-            cafe_terminado <= '0'; 
-            if (azucar_code = "0001") then
-                carga <= 2000000;
-                bomba_azucar <='1';
-                enable <= '1';
-                if(salida ='1') then
-                    bomba_azucar <= '0';
-                    enable <= '0';
-                end if;    
-            elsif (azucar_code = "0010") then
-                carga <= 4000000;
-                bomba_azucar <='1';
-                enable <= '1';
-                if(salida ='1') then
-                    bomba_azucar <= '0';
-                    enable <= '0';
-                end if;  
+    begin
+ 
+    Asignacion_Estados:process(reset,clk) --Asignación de estados
+        begin 
+            if reset='1' and OnOff = '1' then
+                estado_actual <= TIPO_CAFE;  
+            elsif rising_edge(clk) then
+                estado_actual <= estado_siguiente;
             end if;
-                           	       
-	   when ESPERA_NUEVOCAFE =>
-	       led_on <= '1';
-	       bomba_cafe <= '0';
-	       bomba_leche <= '0';
-	       bomba_azucar <= '0';
-	       cafe_terminado <= '1';
-       when others => 
-           led_on <= '0';
-	       bomba_cafe <= '0';
-	       bomba_leche <= '0';
-	       bomba_azucar <= '0';
-	       cafe_terminado <= '0';
-       end case;
-   end process;
-   
-   Contador: process(clk,reset,enable)
-   begin
-	  if (reset='1') then
-         cuenta<=0;
-         salida<='0';
-      elsif clk'event and clk='1' then
-         if enable ='1' then
-           if cuenta<carga then
-                 cuenta<=cuenta+1;
-                 salida<='0';
-                 if cuenta=(carga-1) then
-                     salida<='1';
-                 end if;
-            else
-                 cuenta<=0;
-                 salida<='0';
-             end if;
-         else
-            salida <= '0';
-         end if;
-   end if;
- end process;
-   
+        end process;
+    
+    Evolucion_Estados:process(cafe_ok, azucar_ok, estado_actual, OnOff, salida)  --Evolución de los estados
+        begin 
+       
+            estado_siguiente <= estado_actual;
+            case estado_actual is
+    
+                when MAQUINA_OFF =>
+                  if OnOff = '1' then
+                    estado_siguiente <= TIPO_CAFE;
+                      end if;
+                    
+                when TIPO_CAFE =>
+                  if cafe_ok = '1' and OnOff ='1'  then
+                    estado_siguiente <= SIRVIENDO_CAFE;
+                  end if;
+                  if OnOff = '0' then 
+                    estado_siguiente <= MAQUINA_OFF;
+                  end if;    
+                  
+                when SIRVIENDO_CAFE =>
+                  if salida = '1' and cafe_code = "11" then       
+                    estado_siguiente <= SIRVIENDO_LECHE;
+                  end if;
+                  if salida = '1' and cafe_code = "10" then
+                    estado_siguiente <= CANTIDAD_AZUCAR;
+                  end if;        
+                  if OnOff = '0' then 
+                    estado_siguiente <= MAQUINA_OFF;
+                  end if;  
+                  if cafe_ok ='0' then
+                    estado_siguiente<=ESPERA_NUEVOCAFE;  
+                  end if;  
+                when SIRVIENDO_LECHE =>
+                    if salida = '1' then 
+                        estado_siguiente <= CANTIDAD_AZUCAR;
+                    end if;
+                   if OnOff = '0' then 
+                      estado_siguiente <= MAQUINA_OFF;
+                   end if;      
+                           
+                when CANTIDAD_AZUCAR => --Si metemos un azucar code, que no esta contemplado, no enciende el cafe terminado
+                   if azucar_ok = '1' and azucar_code = "0000" and OnOff = '1' then
+                       estado_siguiente <= ESPERA_NUEVOCAFE;
+                   elsif azucar_ok = '1'and (azucar_code = "0001" or azucar_code = "0010") and OnOff = '1' then
+                    estado_siguiente <= SIRVIENDO_AZUCAR;
+                  end if;
+                  if OnOff = '0' then 
+                    estado_siguiente <= MAQUINA_OFF;
+                  end if;    
+                  
+                when SIRVIENDO_AZUCAR =>
+                    if(salida = '1') then
+                        estado_siguiente <= ESPERA_NUEVOCAFE;
+                    end if;
+                    if OnOff = '0' then 
+                        estado_siguiente <= MAQUINA_OFF;
+                    end if;            
+                     
+                when ESPERA_NUEVOCAFE =>
+                  if reset = '1' and OnOff = '1' then
+                    estado_siguiente <= TIPO_CAFE;
+                  end if;
+                  if OnOff = '0' then 
+                    estado_siguiente <= MAQUINA_OFF;
+                  end if;  
+            
+                when others =>
+                    estado_siguiente <= MAQUINA_OFF;
+            
+                end case;
+        end process;
+    
+    
+    Salidas:process(estado_actual)   --Asignación de las salidas
+        begin
+            case estado_actual is
+                when MAQUINA_OFF =>
+                   led_on <= '0';
+                   bomba_cafe <= '0';
+                   bomba_leche <= '0';
+                   bomba_azucar <= '0';
+                   cafe_terminado <= '0';
+                   
+                when TIPO_CAFE =>
+                   led_on <= '1';
+                   bomba_cafe <= '0';
+                   bomba_leche <= '0';
+                   bomba_azucar <= '0';
+                   cafe_terminado <= '0';
+                   
+                when CANTIDAD_AZUCAR => 
+                   led_on <= '1';
+                   bomba_cafe <= '0';
+                   bomba_leche <= '0';
+                   bomba_azucar <= '0';
+                   cafe_terminado <= '0';
+                   
+                when SIRVIENDO_CAFE => 
+                 led_on <= '1';
+                 carga <= 700000000; 
+                 bomba_cafe <='1';
+                 enable <= '1';
+                 if(salida ='1') then --Salida se pone a 1 cuando acaba la cuenta
+                    bomba_cafe <= '0';
+                    enable <= '0';
+                 end if;  
+                 cafe_terminado <= '0';
+                   
+                when SIRVIENDO_LECHE =>
+                   led_on <= '1';
+                   cafe_terminado <= '0';
+                   bomba_cafe <='0';
+                   carga <= 100000000;
+                   bomba_leche <='1';
+                   enable <= '1';
+                   if(salida ='1') then
+                       bomba_leche <= '0';
+                       enable <= '0';
+                   end if; 
+                   
+                when SIRVIENDO_AZUCAR =>
+                    led_on <= '1';
+                    bomba_cafe <= '0';
+                    bomba_leche <= '0';
+                    cafe_terminado <= '0'; 
+                    if (azucar_code = "0001") then
+                        carga <= 40000000;
+                        bomba_azucar <='1';
+                        enable <= '1';
+                        if(salida ='1') then
+                            bomba_azucar <= '0';
+                            enable <= '0';
+                        end if;    
+                    elsif (azucar_code = "0010") then
+                        carga <= 70000000;
+                        bomba_azucar <='1';
+                        enable <= '1';
+                        if(salida ='1') then
+                            bomba_azucar <= '0';
+                            enable <= '0';
+                        end if;  
+                    end if;
+                                           
+                when ESPERA_NUEVOCAFE =>
+                   led_on <= '1';
+                   bomba_cafe <= '0';
+                   bomba_leche <= '0';
+                   bomba_azucar <= '0';
+                   cafe_terminado <= '1';
+                when others => 
+                   led_on <= '0';
+                   bomba_cafe <= '0';
+                   bomba_leche <= '0';
+                   bomba_azucar <= '0';
+                   cafe_terminado <= '0';
+                end case;
+        end process;
+       
+    Contador: process(clk,reset,enable)
+        begin
+            if (reset='1') then
+                cuenta<=0;
+                salida<='0';
+            elsif clk'event and clk='1' then
+                if enable ='1' then
+                    if cuenta<carga then
+                        cuenta<=cuenta+1;
+                        salida<='0';
+                        if cuenta=(carga-1) then
+                            salida<='1';                     
+                        end if;
+                    else
+                        salida<='0';
+                    end if;
+                else
+                    cuenta <=0;
+                    salida <= '0';
+                end if;
+            end if;
+        end process;
+       
 end Behavioral;

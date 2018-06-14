@@ -26,7 +26,7 @@ begin
 
 	process (clk, reset, OnOff)
 	begin
-		if OnOff='1' then
+		if OnOff='0' then
 			if reset = '1' then 
 				codigo <= "1111";
 				bit_ok<='0';
@@ -43,14 +43,16 @@ begin
 				elsif M_Azucar = '1' and P_Azucar = '0' and S_Azucar = '0' then
 					codigo<= "0010";
 					bit_ok<='1';
-				else --Añadido 10/06/2018: la idea es que salga una F si pulsa más de un botón 
-				    codigo<= "1001";					
+				elsif ((M_azucar='1' and P_azucar='1') or (M_azucar='1' and S_azucar='1') or (P_azucar='1' and S_azucar='1')) then--Añadido 10/06/2018: la idea es que salga una F si pulsa más de un botón 
+				    codigo<= "1001";	
+				    bit_ok<= '0';				
 				end if;
 			end if;
 			
-		elsif OnOff='0' then 
+		elsif OnOff='1' then --Aqui poner un 0 para que no funcione
+			codigo<="1010";
 			bit_ok<='0';
-			codigo<="1111";
+			
 			
 		end if;
 	end process;
